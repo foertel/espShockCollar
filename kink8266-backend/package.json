@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "@types/node": "^20.5.0",
+    "@types/socket.io": "^2.1.13",
+    "reflect-metadata": "^0.1.13",
+    "socket.io": "^2.5.0",
+    "source-map-support": "^0.5.21",
+    "sqlite3": "^5.1.6",
+    "tsc-watch": "^6.0.4",
+    "typeorm": "^0.3.17",
+    "typescript": "^5.1.6"
+  },
+  "scripts": {
+    "start:dev": "tsc-watch --onSuccess 'node ./dist/index.js'"
+  }
+}

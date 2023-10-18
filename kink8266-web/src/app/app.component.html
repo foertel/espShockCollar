@@ -1,0 +1,86 @@
+<ng-container *ngFor="let g of activeGames">
+	<h2>{{g.humanName}}</h2>
+	<div>PlayerCount: {{g.playerCount}}</div>
+	<div>Name: {{g.name}}</div>
+	<div>
+		Collars:
+		<table style="border: solid 1px black; width: 500px;">
+			<thead>
+				<tr>
+					<td>
+						Collar Identifier
+					</td>
+
+					<td>
+						&nbsp;
+					</td>
+				</tr>
+			</thead>
+
+			<tr *ngFor="let collar of g.playerCollars; let idx = index">
+				<td *ngIf="collar != null">
+					{{collar.identifier}}
+				</td>
+
+				<td *ngIf="collar == null">
+					Nicht Besetzt
+				</td>
+
+				<td>
+					<select (change)="setCollarGame(g.name, $event, idx)">
+						<option>&nbsp;</option>
+						<ng-container *ngFor="let ac of availableCollars">
+							<option *ngIf="ac.isLinked" [value]="ac.id" [selected]="collar?.id == ac?.id">{{ac.identifier}}</option>
+
+						</ng-container>
+					</select>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<!-- {{g|json}} -->
+</ng-container>
+
+
+
+<ng-container>
+	<table style="width: 100%; padding: 5px;">
+		<tr>
+			<td>ID</td>
+			<td>Collar Identifier</td>
+			<td>Channel</td>
+			<td>Receiver ID</td>
+			<td>Maximale Stärke</td>
+			<td>Ist Verknüpft</td>
+			<td>&nbsp;</td>
+		</tr>
+
+		<tr *ngFor="let ac of availableCollars">
+			<td>{{ac.id}}</td>
+			<td><input type="text" [(ngModel)]="ac.identifier" style="width: 300px; font-family: lucida console; padding: 3px;" ></td>
+			<td>{{ac.channel}}</td>
+			<td>{{ac.receiverId}}</td>
+			<td><input type="text" [(ngModel)]="ac.maximumIntensity" style="width: 300px; font-family: lucida console; padding: 3px;" ></td>
+			<td>{{ac.isLinked == 1 ? 'Ja' : 'Nein'}}</td>
+			<td>
+				<button (click)="saveCollarChanges(ac)">Änderungen Speichern</button>&nbsp;
+				<ng-container *ngIf="ac.isLinked">
+					<button (click)="removeCollar(ac)">Gerät Entfernen</button>&nbsp;
+				</ng-container>
+				<ng-container *ngIf="!ac.isLinked">
+					<button (click)="linkCollar(ac)">Gerät Verknüpfen</button>&nbsp;	
+				</ng-container>
+				
+
+				<button (click)="vibrateCollar(ac)">Vibrate!</button>&nbsp;	
+				<button (click)="beepCollar(ac)">Beep!</button>&nbsp;	
+			</td>
+		</tr>
+	</table>
+</ng-container>
+
+<!-- <pre>
+	{{availableCollars | json}}
+</pre> -->
+
+<router-outlet></router-outlet>
